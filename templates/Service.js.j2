@@ -1,0 +1,95 @@
+import axios from 'axios';
+
+const apiClient = axios.create({
+  baseURL: '<% api_base_url %>',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Interceptor untuk menambahkan token ke header
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+const <% component_name %>Service = {
+  getAll: async () => {
+    try {
+      const response = await apiClient.get('<% endpoint %>');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching <% component_name|lower %>s:', error);
+      throw error;
+    }
+  },
+
+  getById: async (id) => {
+    try {
+      const response = await apiClient.get(`<% endpoint %>/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching <% component_name|lower %> with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  create: async (data) => {
+    try {
+      const formData = new FormData();
+      [% for field in form.fields %]
+      if (data.<% field.key %>) {
+        [% if field.type == 'file' %]
+        formData.append('<% field.key %>', data.<% field.key %>[0].originFileObj);
+        [% else %]
+        formData.append('<% field.key %>', data.<% field.key %>);
+        [% endif %]
+      }
+      [% endfor %]
+      const response = await apiClient.post('<% endpoint %>', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating <% component_name|lower %>:', error);
+      throw error;
+    }
+  },
+
+  update: async (id, data) => {
+    try {
+      const formData = new FormData();
+      [% for field in form.fields %]
+      if (data.<% field.key %>) {
+        [% if field.type == 'file' %]
+        formData.append('<% field.key %>', data.<% field.key %>[0].originFileObj);
+        [% else %]
+        formData.append('<% field.key %>', data.<% field.key %>);
+        [% endif %]
+      }
+      [% endfor %]
+      const response = await apiClient.put(`<% endpoint %>/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating <% component_name|lower %> with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  delete: async (id) => {
+    try {
+      const response = await apiClient.delete(`<% endpoint %>/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting <% component_name|lower %> with id ${id}:`, error);
+      throw error;
+    }
+  },
+};
+
+export default <% component_name %>Service;

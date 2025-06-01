@@ -1,0 +1,67 @@
+import React, { useState } from 'react';
+import { Modal, Button, message } from 'antd';
+[% for component in components %]
+import <% component.name %>List from './<% component.name %>List';
+import <% component.name %>Form from './<% component.name %>Form';
+[% endfor %]
+
+const App = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
+  const [data, setData] = useState([]);
+
+  const handleEdit = (record) => {
+    setCurrentRecord(record);
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await <% components[0].name %>Service.delete(id);
+      setData(data.filter(item => item.id !== id));
+      message.success('<% components[0].name %> deleted successfully');
+    } catch (error) {
+      message.error('Failed to delete <% components[0].name|lower %>');
+    }
+  };
+
+  const handleSubmit = (values) => {
+    setIsModalVisible(false);
+    setCurrentRecord(null);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setCurrentRecord(null);
+  };
+
+  return (
+    <div className="app-container">
+      <h1><% module %></h1>
+      <Button
+        type="primary"
+        onClick={() => setIsModalVisible(true)}
+        style={{ marginBottom: 16 }}
+      >
+        Add <% components[0].name %>
+      </Button>
+      [% for component in components %]
+      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
+      [% endfor %]
+      <Modal
+        title={currentRecord ? 'Edit <% components[0].name %>' : 'Add <% components[0].name %>'}
+        open={isModalVisible}
+        footer={null}
+        onCancel={handleCancel}
+      >
+        <<% components[0].name %>Form
+          initialValues={currentRecord}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
+      </Modal>
+    </div>
+  );
+};
+
+export default App;

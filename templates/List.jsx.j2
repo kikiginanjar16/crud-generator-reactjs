@@ -1,0 +1,57 @@
+import React, { useEffect } from 'react';
+import { Table, Button, Image } from 'antd';
+import <% component_name %>Service from './services/<% component_name %>Service';
+
+
+const <% component_name %>List = ({ onEdit, onDelete, data, setData }) => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await <% component_name %>Service.getAll();
+        setData(response);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (!data.length) {
+      fetchData();
+    }
+  }, [data, setData]);
+
+  const columns = [
+    [% for column in list.columns %]
+    {
+      title: '<% column.label %>',
+      dataIndex: '<% column.key %>',
+      key: '<% column.key %>',
+      [% if column.type == 'file' %]
+      render: (text) => <Image src={text || 'https://via.placeholder.com/50'} width={50} />,
+      [% endif %]
+    },
+    [% endfor %]
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <>
+          <Button onClick={() => onEdit(record)} style={{ marginRight: 8 }}>Edit</Button>
+          <Button danger onClick={() => onDelete(record.id)}>Delete</Button>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <div className="<% component_name|lower %>-list-container">
+      <h2><% component_name %> List</h2>
+      <Table columns={columns} dataSource={data} rowKey="id" loading={loading} />
+    </div>
+  );
+};
+
+export default <% component_name %>List;

@@ -1,0 +1,84 @@
+import React from 'react';
+import { Form, Input, Select, Button, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import <% component_name %>Service from './services/<% component_name %>Service';
+
+
+const <% component_name %>Form = ({ initialValues, onSubmit, onCancel }) => {
+  const [form] = Form.useForm();
+
+  const handleSubmit = async (values) => {
+    try {
+      if (initialValues && initialValues.id) {
+        await <% component_name %>Service.update(initialValues.id, values);
+        message.success('<% component_name %> updated successfully');
+      } else {
+        await <% component_name %>Service.create(values);
+        message.success('<% component_name %> created successfully');
+      }
+      onSubmit(values);
+      form.resetFields();
+    } catch (error) {
+      message.error('Failed to save <% component_name|lower %>');
+    }
+  };
+
+  const normFile = (e) => {
+    if (Array.isArray(e)) return e;
+    return e && e.fileList;
+  };
+
+  return (
+    <div className="<% component_name|lower %>-form-container">
+      <h2>{initialValues ? 'Edit <% component_name %>' : 'Add <% component_name %>'}</h2>
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={initialValues}
+        onFinish={handleSubmit}
+      >
+        [% for field in form.fields %]
+        <Form.Item
+          name="<% field.key %>"
+          label="<% field.label %>"
+          rules={[{ required: <% field.required|lower %>, message: 'Please input <% field.label|lower %>!' }]}
+          [% if field.type == 'file' %]
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          [% endif %]
+        >
+          [% if field.type == 'select' %]
+          <Select placeholder="<% field.placeholder %>">
+            [% for option in field.options %]
+            <Select.Option value="<% option %>"><% option %></Select.Option>
+            [% endfor %]
+          </Select>
+          [% elif field.type == 'file' %]
+          <Upload
+            name="<% field.key %>"
+            listType="picture"
+            maxCount={1}
+            accept="<% field.accept %>"
+            beforeUpload={() => false}
+          >
+            <Button icon={<UploadOutlined />}><% field.placeholder %></Button>
+          </Upload>
+          [% else %]
+          <Input type="<% field.type %>" placeholder="<% field.placeholder %>" />
+          [% endif %]
+        </Form.Item>
+        [% endfor %]
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            {initialValues ? 'Update' : 'Create'}
+          </Button>
+          <Button style={{ marginRight: 8 }} onClick={onCancel}>
+            Cancel
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+};
+
+export default <% component_name %>Form;
