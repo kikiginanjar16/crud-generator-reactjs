@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from jinja2 import Environment, FileSystemLoader
 
 # Load konfigurasi
@@ -75,11 +76,26 @@ def generate_app(config, output_dir="output/generated_components"):
 
 # Main function
 def main():
-    config = load_config()
-    print(config)
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='Generate React components from configuration')
+    parser.add_argument('--config', default='config.json', help='Path to configuration JSON file')
+    parser.add_argument('--output-dir', default='output', help='Base output directory for generated components')
+    
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Load configuration
+    config = load_config(args.config)
+    
+    # Construct output directory path using module name
+    module_output_dir = os.path.join(args.output_dir, config['module'])
+    
+    # Generate components
     for component in config.get("components", []):
-        generate_component(component, config['apiBaseUrl'])
-    generate_app(config)
+        generate_component(component, config['apiBaseUrl'], module_output_dir)
+    
+    # Generate app
+    generate_app(config, module_output_dir)
 
 if __name__ == "__main__":
     main()
