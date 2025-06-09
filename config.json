@@ -1,40 +1,321 @@
 {
-  "module": "ProductLineManagement",
+  "module": "ProductPerformanceManagement",
   "apiBaseUrl": "http://localhost:8000/api",
   "components": [
     {
-      "name": "ProductLine",
+      "name": "ProductPerformance",
       "list": {
         "columns": [
           {"key": "id", "label": "ID", "type": "number"},
-          {"key": "name", "label": "Name", "type": "string"},
-          {"key": "code", "label": "Code", "type": "string"},
-          {"key": "description", "label": "Description", "type": "string"}
+          {"key": "product_id", "label": "Product ID", "type": "string"},
+          {"key": "periode", "label": "Period", "type": "string"},
+          {"key": "year", "label": "Year", "type": "number"},
+          {"key": "month", "label": "Month", "type": "number"},
+          {"key": "brand_awareness", "label": "Brand Awareness", "type": "number"},
+          {"key": "brand_perception", "label": "Brand Perception", "type": "number"},
+          {"key": "brand_image", "label": "Brand Image", "type": "number"},
+          {"key": "brand_purchase_intention", "label": "Brand Purchase Intention", "type": "number"},
+          {"key": "brand_loyalty", "label": "Brand Loyalty", "type": "number"},
+          {"key": "brand_equity", "label": "Brand Equity", "type": "number"},
+          {"key": "customer_satisfaction_index", "label": "Customer Satisfaction Index", "type": "number"},
+          {"key": "customer_loyalty_index", "label": "Customer Loyalty Index", "type": "number"},
+          {"key": "churn_rate", "label": "Churn Rate (%)", "type": "number"},
+          {"key": "net_promoter_score", "label": "Net Promoter Score", "type": "number"},
+          {"key": "customer_feedback_score", "label": "Customer Feedback Score", "type": "number"},
+          {"key": "net_profit", "label": "Net Profit", "type": "number"},
+          {"key": "ebitda", "label": "EBITDA", "type": "number"},
+          {"key": "net_profit_margin", "label": "Net Profit Margin (%)", "type": "number"},
+          {"key": "current_ratio", "label": "Current Ratio", "type": "number"},
+          {"key": "debt_to_equity_ratio", "label": "Debt to Equity Ratio", "type": "number"},
+          {"key": "return_on_equity", "label": "Return on Equity (%)", "type": "number"},
+          {"key": "revenue_achievement", "label": "Revenue Achievement", "type": "number"},
+          {"key": "revenue_growth", "label": "Revenue Growth (%)", "type": "number"},
+          {"key": "profit_margin", "label": "Profit Margin (%)", "type": "number"},
+          {"key": "roi", "label": "ROI (%)", "type": "number"},
+          {"key": "ir2c", "label": "IR2C (%)", "type": "number"},
+          {"key": "pricing_evaluation", "label": "Pricing Evaluation", "type": "number"},
+          {"key": "costing_evaluation", "label": "Costing Evaluation", "type": "number"},
+          {"key": "slg_achievement", "label": "SLG Achievement", "type": "number"},
+          {"key": "sla_achievement", "label": "SLA Achievement", "type": "number"},
+          {"key": "technology_positioning", "label": "Technology Positioning", "type": "number"},
+          {"key": "market_share_percentage", "label": "Market Share (%)", "type": "number"},
+          {"key": "market_share_growth", "label": "Market Share Growth (%)", "type": "number"},
+          {"key": "revenue_share", "label": "Revenue Share (%)", "type": "number"},
+          {"key": "revenue_share_growth", "label": "Revenue Share Growth (%)", "type": "number"},
+          {"key": "bcg_matrix_position", "label": "BCG Matrix Position", "type": "string"}
         ],
-        "endpoint": "/product-lines"
+        "endpoint": "/product-performance"
       },
       "form": {
         "fields": [
           {
-            "key": "name",
-            "label": "Name",
-            "type": "text",
+            "key": "product_id",
+            "label": "Product ID",
+            "type": "select",
             "required": true,
-            "placeholder": "Enter product line name"
+            "placeholder": "Select product",
+            "options": []
           },
           {
-            "key": "code",
-            "label": "Code",
-            "type": "text",
+            "key": "periode",
+            "label": "Period",
+            "type": "select",
             "required": true,
-            "placeholder": "Enter unique code"
+            "placeholder": "Select period",
+            "options": ["Q1", "Q2", "Q3", "Q4"]
           },
           {
-            "key": "description",
-            "label": "Description",
-            "type": "textarea",
+            "key": "year",
+            "label": "Year",
+            "type": "number",
+            "required": true,
+            "placeholder": "Enter year"
+          },
+          {
+            "key": "month",
+            "label": "Month",
+            "type": "select",
+            "required": true,
+            "placeholder": "Select month",
+            "options": [
+              {"value": 1, "label": "January"},
+              {"value": 2, "label": "February"},
+              {"value": 3, "label": "March"},
+              {"value": 4, "label": "April"},
+              {"value": 5, "label": "May"},
+              {"value": 6, "label": "June"},
+              {"value": 7, "label": "July"},
+              {"value": 8, "label": "August"},
+              {"value": 9, "label": "September"},
+              {"value": 10, "label": "October"},
+              {"value": 11, "label": "November"},
+              {"value": 12, "label": "December"}
+            ]
+          },
+          {
+            "key": "brand_awareness",
+            "label": "Brand Awareness",
+            "type": "number",
             "required": false,
-            "placeholder": "Enter product line description"
+            "placeholder": "Enter brand awareness score (0-100)"
+          },
+          {
+            "key": "brand_perception",
+            "label": "Brand Perception",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter brand perception score (0-100)"
+          },
+          {
+            "key": "brand_image",
+            "label": "Brand Image",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter brand image score (0-100)"
+          },
+          {
+            "key": "brand_purchase_intention",
+            "label": "Brand Purchase Intention",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter purchase intention score (0-100)"
+          },
+          {
+            "key": "brand_loyalty",
+            "label": "Brand Loyalty",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter brand loyalty score (0-100)"
+          },
+          {
+            "key": "brand_equity",
+            "label": "Brand Equity",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter brand equity score (0-100)"
+          },
+          {
+            "key": "customer_satisfaction_index",
+            "label": "Customer Satisfaction Index",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter satisfaction index (0-100)"
+          },
+          {
+            "key": "customer_loyalty_index",
+            "label": "Customer Loyalty Index",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter loyalty index (0-100)"
+          },
+          {
+            "key": "churn_rate",
+            "label": "Churn Rate (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter churn rate (%)"
+          },
+          {
+            "key": "net_promoter_score",
+            "label": "Net Promoter Score",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter NPS (0-100)"
+          },
+          {
+            "key": "customer_feedback_score",
+            "label": "Customer Feedback Score",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter feedback score (0-100)"
+          },
+          {
+            "key": "net_profit",
+            "label": "Net Profit",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter net profit"
+          },
+          {
+            "key": "ebitda",
+            "label": "EBITDA",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter EBITDA"
+          },
+          {
+            "key": "net_profit_margin",
+            "label": "Net Profit Margin (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter net profit margin (%)"
+          },
+          {
+            "key": "current_ratio",
+            "label": "Current Ratio",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter current ratio"
+          },
+          {
+            "key": "debt_to_equity_ratio",
+            "label": "Debt to Equity Ratio",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter debt to equity ratio"
+          },
+          {
+            "key": "return_on_equity",
+            "label": "Return on Equity (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter return on equity (%)"
+          },
+          {
+            "key": "revenue_achievement",
+            "label": "Revenue Achievement",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter revenue achievement"
+          },
+          {
+            "key": "revenue_growth",
+            "label": "Revenue Growth (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter revenue growth (%)"
+          },
+          {
+            "key": "profit_margin",
+            "label": "Profit Margin (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter profit margin (%)"
+          },
+          {
+            "key": "roi",
+            "label": "ROI (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter ROI (%)"
+          },
+          {
+            "key": "ir2c",
+            "label": "IR2C (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter IR2C (%)"
+          },
+          {
+            "key": "pricing_evaluation",
+            "label": "Pricing Evaluation",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter pricing evaluation score (0-100)"
+          },
+          {
+            "key": "costing_evaluation",
+            "label": "Costing Evaluation",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter costing evaluation score (0-100)"
+          },
+          {
+            "key": "slg_achievement",
+            "label": "SLG Achievement",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter SLG achievement score (0-100)"
+          },
+          {
+            "key": "sla_achievement",
+            "label": "SLA Achievement",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter SLA achievement score (0-100)"
+          },
+          {
+            "key": "technology_positioning",
+            "label": "Technology Positioning",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter technology positioning score (0-100)"
+          },
+          {
+            "key": "market_share_percentage",
+            "label": "Market Share (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter market share (%)"
+          },
+          {
+            "key": "market_share_growth",
+            "label": "Market Share Growth (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter market share growth (%)"
+          },
+          {
+            "key": "revenue_share",
+            "label": "Revenue Share (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter revenue share (%)"
+          },
+          {
+            "key": "revenue_share_growth",
+            "label": "Revenue Share Growth (%)",
+            "type": "number",
+            "required": false,
+            "placeholder": "Enter revenue share growth (%)"
+          },
+          {
+            "key": "bcg_matrix_position",
+            "label": "BCG Matrix Position",
+            "type": "select",
+            "required": false,
+            "placeholder": "Select BCG matrix position",
+            "options": ["Star", "Cash Cow", "Question Mark", "Dog"]
           }
         ]
       }

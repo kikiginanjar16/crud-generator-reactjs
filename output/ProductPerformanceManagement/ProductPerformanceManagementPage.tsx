@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Button, message, Breadcrumb } from 'antd';
-[% for component in components %]
-import <% component.name %>List from './<% component.name %>List';
-import <% component.name %>Form from './<% component.name %>Form';
-import <% component.name %>Service from './services/<% component.name %>Service';
-[% endfor %]
 
-const <% module %>Page: React.FC = () => {
+import ProductPerformanceList from './ProductPerformanceList';
+import ProductPerformanceForm from './ProductPerformanceForm';
+import ProductPerformanceService from './services/ProductPerformanceService';
+
+
+const ProductPerformanceManagementPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
   const [data, setData] = useState<any[]>([]);
@@ -18,11 +18,11 @@ const <% module %>Page: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await <% components[0].name %>Service.delete(id);
+      await ProductPerformanceService.delete(id);
       setData(data.filter(item => item.id !== id));
-      message.success('<% components[0].name %> deleted successfully');
+      message.success('ProductPerformance deleted successfully');
     } catch (error) {
-      message.error('Failed to delete <% components[0].name|lower %>');
+      message.error('Failed to delete productperformance');
     }
   };
 
@@ -40,12 +40,12 @@ const <% module %>Page: React.FC = () => {
     <div className="app-container">
       <div className='flex justify-between items-center mb-4'>
           <div>
-            <h2 className="text-xl font-bold"><% module %></h2>
+            <h2 className="text-xl font-bold">Product Lines</h2>
             <Breadcrumb
               className='mb-4'
               items={[
                 { title: 'Home', href: '/' },
-                { title: '<% module %>', href: '/<% components[0].endpoint|lower %>' },
+                { title: 'ProductPerformanceManagement', href: '/' },
               ]}
             />
           </div>
@@ -59,16 +59,16 @@ const <% module %>Page: React.FC = () => {
             Create New
           </Button>
       </div>
-      [% for component in components %]
-      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
-      [% endfor %]
+      
+      <ProductPerformanceList onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
+      
       <Modal
-        title={currentRecord ? 'Edit <% components[0].name %>' : 'Add <% components[0].name %>'}
+        title={currentRecord ? 'Edit ProductPerformance' : 'Add ProductPerformance'}
         open={isModalVisible}
         footer={null}
         onCancel={handleCancel}
       >
-        <<% components[0].name %>Form
+        <ProductPerformanceForm
           initialValues={currentRecord}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
@@ -78,4 +78,4 @@ const <% module %>Page: React.FC = () => {
   );
 };
 
-export default <% module %>Page;
+export default ProductPerformanceManagementPage;

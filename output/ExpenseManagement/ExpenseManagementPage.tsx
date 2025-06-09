@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Button, message, Breadcrumb } from 'antd';
-[% for component in components %]
-import <% component.name %>List from './<% component.name %>List';
-import <% component.name %>Form from './<% component.name %>Form';
-import <% component.name %>Service from './services/<% component.name %>Service';
-[% endfor %]
 
-const <% module %>Page: React.FC = () => {
+import ExpenseList from './ExpenseList';
+import ExpenseForm from './ExpenseForm';
+import ExpenseService from './services/ExpenseService';
+
+
+const ExpenseManagementPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
   const [data, setData] = useState<any[]>([]);
@@ -18,11 +18,11 @@ const <% module %>Page: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await <% components[0].name %>Service.delete(id);
+      await ExpenseService.delete(id);
       setData(data.filter(item => item.id !== id));
-      message.success('<% components[0].name %> deleted successfully');
+      message.success('Expense deleted successfully');
     } catch (error) {
-      message.error('Failed to delete <% components[0].name|lower %>');
+      message.error('Failed to delete expense');
     }
   };
 
@@ -40,12 +40,12 @@ const <% module %>Page: React.FC = () => {
     <div className="app-container">
       <div className='flex justify-between items-center mb-4'>
           <div>
-            <h2 className="text-xl font-bold"><% module %></h2>
+            <h2 className="text-xl font-bold">Product Lines</h2>
             <Breadcrumb
               className='mb-4'
               items={[
                 { title: 'Home', href: '/' },
-                { title: '<% module %>', href: '/<% components[0].endpoint|lower %>' },
+                { title: 'ExpenseManagement', href: '/' },
               ]}
             />
           </div>
@@ -59,16 +59,16 @@ const <% module %>Page: React.FC = () => {
             Create New
           </Button>
       </div>
-      [% for component in components %]
-      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
-      [% endfor %]
+      
+      <ExpenseList onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
+      
       <Modal
-        title={currentRecord ? 'Edit <% components[0].name %>' : 'Add <% components[0].name %>'}
+        title={currentRecord ? 'Edit Expense' : 'Add Expense'}
         open={isModalVisible}
         footer={null}
         onCancel={handleCancel}
       >
-        <<% components[0].name %>Form
+        <ExpenseForm
           initialValues={currentRecord}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
@@ -78,4 +78,4 @@ const <% module %>Page: React.FC = () => {
   );
 };
 
-export default <% module %>Page;
+export default ExpenseManagementPage;
