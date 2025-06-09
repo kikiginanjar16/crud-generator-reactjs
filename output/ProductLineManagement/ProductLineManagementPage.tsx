@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Button, message, Breadcrumb } from 'antd';
-[% for component in components %]
-import <% component.name %>List from './<% component.name %>List';
-import <% component.name %>Form from './<% component.name %>Form';
-import <% component.name %>Service from './services/<% component.name %>Service';
-[% endfor %]
 
-const <% module %>Page: React.FC = () => {
+import ProductLineList from './ProductLineList';
+import ProductLineForm from './ProductLineForm';
+import ProductLineService from './services/ProductLineService';
+
+
+const ProductLineManagementPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
   const [data, setData] = useState<any[]>([]);
@@ -18,11 +18,11 @@ const <% module %>Page: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await <% components[0].name %>Service.delete(id);
+      await ProductLineService.delete(id);
       setData(data.filter(item => item.id !== id));
-      message.success('<% components[0].name %> deleted successfully');
+      message.success('ProductLine deleted successfully');
     } catch (error) {
-      message.error('Failed to delete <% components[0].name|lower %>');
+      message.error('Failed to delete productline');
     }
   };
 
@@ -45,7 +45,7 @@ const <% module %>Page: React.FC = () => {
               className='mb-4'
               items={[
                 { title: 'Home', href: '/' },
-                { title: '<% module %>', href: '/<% components[0].endpoint|lower %>' },
+                { title: 'ProductLineManagement', href: '/' },
               ]}
             />
           </div>
@@ -59,16 +59,16 @@ const <% module %>Page: React.FC = () => {
             Create New
           </Button>
       </div>
-      [% for component in components %]
-      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
-      [% endfor %]
+      
+      <ProductLineList onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
+      
       <Modal
-        title={currentRecord ? 'Edit <% components[0].name %>' : 'Add <% components[0].name %>'}
+        title={currentRecord ? 'Edit ProductLine' : 'Add ProductLine'}
         open={isModalVisible}
         footer={null}
         onCancel={handleCancel}
       >
-        <<% components[0].name %>Form
+        <ProductLineForm
           initialValues={currentRecord}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
@@ -78,4 +78,4 @@ const <% module %>Page: React.FC = () => {
   );
 };
 
-export default <% module %>Page;
+export default ProductLineManagementPage;
