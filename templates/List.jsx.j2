@@ -7,29 +7,10 @@ interface <% component_name %>ListProps {
   onEdit: (record: any) => void;
   onDelete: (id: string) => void;
   data: any[];
-  setData: (data: any[]) => void;
+  loading: boolean;
 }
 
-const <% component_name %>List: React.FC<<% component_name %>ListProps> = ({ onEdit, onDelete, data, setData }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await <% component_name %>Service.getAll();
-        setData(response);
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (!data.length) {
-      fetchData();
-    }
-  }, [data, setData]);
-
+const <% component_name %>List: React.FC<<% component_name %>ListProps> = ({ onEdit, onDelete, data, loading }) => {
   const columns = [
     [% for column in list.columns %]
     {

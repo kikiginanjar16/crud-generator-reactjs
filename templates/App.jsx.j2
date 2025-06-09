@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Modal, Button, message, Breadcrumb } from 'antd';
 [% for component in components %]
 import <% component.name %>List from './<% component.name %>List';
@@ -10,10 +10,26 @@ const <% module %>Page: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await <% components[0].name %>Service.getAll();
+      setData(response);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleEdit = (record: any) => {
     setCurrentRecord(record);
     setIsModalVisible(true);
+    fetchData();
   };
 
   const handleDelete = async (id: string) => {
@@ -21,6 +37,7 @@ const <% module %>Page: React.FC = () => {
       await <% components[0].name %>Service.delete(id);
       setData(data.filter(item => item.id !== id));
       message.success('<% components[0].name %> deleted successfully');
+      fetchData();
     } catch (error) {
       message.error('Failed to delete <% components[0].name|lower %>');
     }
@@ -29,11 +46,13 @@ const <% module %>Page: React.FC = () => {
   const handleSubmit = (values: any) => {
     setIsModalVisible(false);
     setCurrentRecord(null);
+    fetchData();
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
     setCurrentRecord(null);
+    fetchData();
   };
 
   return (
