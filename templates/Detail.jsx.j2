@@ -1,0 +1,60 @@
+import React, { useEffect, useState } from 'react';
+import { Button, Card, Descriptions, Image } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+import <% component_name %>Service from './services/<% component_name %>Service';
+
+const <% component_name %>Detail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [data, setData] = useState<any | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!id) return;
+      setLoading(true);
+      try {
+        const response = await <% component_name %>Service.getById(id);
+        setData(response);
+      } catch (error) {
+        console.error(`Failed to fetch <% component_name|lower %> details:`, error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  return (
+    <div className="<% component_name|lower %>-detail-container" style={{ padding: 24 }}>
+      <h2><% component_name %> Details</h2>
+      <Button
+        onClick={() => navigate(-1)}
+        style={{ marginBottom: 16 }}
+      >
+        Back to List
+      </Button>
+      <Card loading={loading}>
+        {data && (
+          <Descriptions bordered>
+            [% for field in form.fields %]
+            <Descriptions.Item label="<% field.label %>">
+              [% if field.type == 'file' %]
+              <Image
+                src={data.<% field.key %> || 'https://via.placeholder.com/150'}
+                width={150}
+                alt="<% field.label %>"
+              />
+              [% else %]
+              {data.<% field.key %> || '-'}
+              [% endif %]
+            </Descriptions.Item>
+            [% endfor %]
+          </Descriptions>
+        )}
+      </Card>
+    </div>
+  );
+};
+
+export default <% component_name %>Detail;

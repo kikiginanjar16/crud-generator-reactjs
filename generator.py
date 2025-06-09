@@ -41,6 +41,17 @@ def generate_component(component, api_base_url, output_dir="output/generated_com
         with open(f"{output_dir}/{component['name']}Form.tsx", 'w') as f:
             f.write(content)
         print(f"Generated {component['name']}Form.tsx and {component['name']}Form.css")
+    
+    # Generate Form component
+    if 'form' in component:
+        template = env.get_template('Detail.jsx.j2')
+        content = template.render(
+            component_name=component['name'],
+            form=component['form']
+        )
+        with open(f"{output_dir}/{component['name']}Detail.tsx", 'w') as f:
+            f.write(content)
+        print(f"Generated {component['name']}Detail.tsx and {component['name']}Form.css")
 
     # Generate Service
     template = env.get_template('Service.js.j2')
