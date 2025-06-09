@@ -31,6 +31,13 @@
               "placeholder": "Enter email"
             },
             {
+              "key": "description",
+              "label": "Description",
+              "type": "textarea",
+              "required": true,
+              "placeholder": "Enter textarea"
+            },
+            {
               "key": "role",
               "label": "Role",
               "type": "select",

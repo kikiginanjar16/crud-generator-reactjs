@@ -17,9 +17,9 @@ apiClient.interceptors.request.use((config) => {
 });
 
 const <% component_name %>Service = {
-  getAll: async () => {
+  getAll: async (): Promise<any[]> => {
     try {
-      const response = await apiClient.get('<% endpoint %>');
+      const response = await apiClient.get<any[]>('<% endpoint %>');
       return response.data;
     } catch (error) {
       console.error('Error fetching <% component_name|lower %>s:', error);
@@ -27,9 +27,9 @@ const <% component_name %>Service = {
     }
   },
 
-  getById: async (id) => {
+  getById: async (id: string): Promise<any> => {
     try {
-      const response = await apiClient.get(`<% endpoint %>/${id}`);
+      const response = await apiClient.get<any>(`<% endpoint %>/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching <% component_name|lower %> with id ${id}:`, error);
@@ -37,7 +37,7 @@ const <% component_name %>Service = {
     }
   },
 
-  create: async (data) => {
+  create: async (data: any): Promise<any> => {
     try {
       const formData = new FormData();
       [% for field in form.fields %]
@@ -49,7 +49,7 @@ const <% component_name %>Service = {
         [% endif %]
       }
       [% endfor %]
-      const response = await apiClient.post('<% endpoint %>', formData, {
+      const response = await apiClient.post<any>('<% endpoint %>', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -59,7 +59,7 @@ const <% component_name %>Service = {
     }
   },
 
-  update: async (id, data) => {
+  update: async (id: string, data: any): Promise<any> => {
     try {
       const formData = new FormData();
       [% for field in form.fields %]
@@ -71,7 +71,7 @@ const <% component_name %>Service = {
         [% endif %]
       }
       [% endfor %]
-      const response = await apiClient.put(`<% endpoint %>/${id}`, formData, {
+      const response = await apiClient.put<any>(`<% endpoint %>/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -81,9 +81,9 @@ const <% component_name %>Service = {
     }
   },
 
-  delete: async (id) => {
+  delete: async (id: string): Promise<void> => {
     try {
-      const response = await apiClient.delete(`<% endpoint %>/${id}`);
+      const response = await apiClient.delete<void>(`<% endpoint %>/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Error deleting <% component_name|lower %> with id ${id}:`, error);

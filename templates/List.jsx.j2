@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Image } from 'antd';
 import <% component_name %>Service from './services/<% component_name %>Service';
 
 
-const <% component_name %>List = ({ onEdit, onDelete, data, setData }) => {
-  const [loading, setLoading] = useState(false);
+interface <% component_name %>ListProps {
+  onEdit: (record: any) => void;
+  onDelete: (id: string) => void;
+  data: any[];
+  setData: (data: any[]) => void;
+}
+
+const <% component_name %>List: React.FC<% component_name %>ListProps = ({ onEdit, onDelete, data, setData }) => {
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,14 +37,14 @@ const <% component_name %>List = ({ onEdit, onDelete, data, setData }) => {
       dataIndex: '<% column.key %>',
       key: '<% column.key %>',
       [% if column.type == 'file' %]
-      render: (text) => <Image src={text || 'https://via.placeholder.com/50'} width={50} />,
+      render: (text: string) => <Image src={text || 'https://via.placeholder.com/50'} width={50} />,
       [% endif %]
     },
     [% endfor %]
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record) => (
+      render: (_: any, record: any) => (
         <>
           <Button onClick={() => onEdit(record)} style={{ marginRight: 8 }}>Edit</Button>
           <Button danger onClick={() => onDelete(record.id)}>Delete</Button>

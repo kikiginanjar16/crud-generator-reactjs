@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import { Modal, Button, message } from 'antd';
+import { Modal, Button, message, Breadcrumb } from 'antd';
 [% for component in components %]
 import <% component.name %>List from './<% component.name %>List';
 import <% component.name %>Form from './<% component.name %>Form';
+import <% component.name %>Service from './services/<% component.name %>Service';
 [% endfor %]
 
-const App = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentRecord, setCurrentRecord] = useState(null);
-  const [data, setData] = useState([]);
+const <% module %>Page: React.FC = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [currentRecord, setCurrentRecord] = useState<any | null>(null);
+  const [data, setData] = useState<any[]>([]);
 
-  const handleEdit = (record) => {
+  const handleEdit = (record: any) => {
     setCurrentRecord(record);
     setIsModalVisible(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       await <% components[0].name %>Service.delete(id);
       setData(data.filter(item => item.id !== id));
@@ -25,7 +26,7 @@ const App = () => {
     }
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     setIsModalVisible(false);
     setCurrentRecord(null);
   };
@@ -37,14 +38,27 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1><% module %></h1>
-      <Button
-        type="primary"
-        onClick={() => setIsModalVisible(true)}
-        style={{ marginBottom: 16 }}
-      >
-        Add <% components[0].name %>
-      </Button>
+      <div className='flex justify-between items-center mb-4'>
+          <div>
+            <h2 className="text-xl font-bold">Product Lines</h2>
+            <Breadcrumb
+              className='mb-4'
+              items={[
+                { title: 'Home', href: '/' },
+                { title: 'Product Management', href: '/products' },
+              ]}
+            />
+          </div>
+
+          <Button
+            size='large'
+            type="primary"
+            onClick={() => setIsModalVisible(true)}
+            style={{ marginBottom: 16 }}
+          >
+            Create New
+          </Button>
+      </div>
       [% for component in components %]
       <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
       [% endfor %]
@@ -64,4 +78,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default <% module %>Page;

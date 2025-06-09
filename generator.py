@@ -70,7 +70,7 @@ def generate_app(config, output_dir="output/generated_components"):
         components=config['components']
     )
     os.makedirs(output_dir, exist_ok=True)
-    with open(f"{output_dir}/{config['module']}Page.jsx", 'w') as f:
+    with open(f"{output_dir}/{config['module']}Page.tsx", 'w') as f:
         f.write(content)
     print(f"Generated App.jsx and App.css")
 
