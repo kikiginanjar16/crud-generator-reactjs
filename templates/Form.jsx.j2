@@ -6,12 +6,12 @@ import <% component_name %>Service from './services/<% component_name %>Service'
 
 
 interface <% component_name %>FormProps {
-  initialValues?: Partial<any> & { id?: string };
+  initialValues?: any;
   onSubmit: (values: any) => void;
   onCancel: () => void;
 }
 
-const <% component_name %>Form: React.FC<% component_name %>FormProps = ({ initialValues, onSubmit, onCancel }) => {
+const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async (values: any) => {
@@ -28,11 +28,6 @@ const <% component_name %>Form: React.FC<% component_name %>FormProps = ({ initi
     } catch (error) {
       message.error('Failed to save <% component_name|lower %>');
     }
-  };
-
-  const normFile = (e: any): any[] | undefined => {
-    if (Array.isArray(e)) return e;
-    return e && e.fileList;
   };
 
   return (
@@ -71,7 +66,7 @@ const <% component_name %>Form: React.FC<% component_name %>FormProps = ({ initi
             <Button icon={<UploadOutlined />}><% field.placeholder %></Button>
           </Upload>
           [% elif field.type == 'textarea' %]
-          <Input.Textarea
+          <Input.TextArea
             placeholder="<% field.placeholder %>"
           />
           [% else %]

@@ -1,60 +1,43 @@
 {
-    "module": "UserManagement",
-    "apiBaseUrl": "http://localhost:8000/api",
-    "components": [
-      {
-        "name": "User",
-        "list": {
-          "columns": [
-            {"key": "id", "label": "ID", "type": "number"},
-            {"key": "name", "label": "Name", "type": "string"},
-            {"key": "email", "label": "Email", "type": "string"},
-            {"key": "role", "label": "Role", "type": "string"},
-            {"key": "avatar", "label": "Avatar", "type": "file"}
-          ],
-          "endpoint": "/users"
-        },
-        "form": {
-          "fields": [
-            {
-              "key": "name",
-              "label": "Name",
-              "type": "text",
-              "required": true,
-              "placeholder": "Enter name"
-            },
-            {
-              "key": "email",
-              "label": "Email",
-              "type": "email",
-              "required": true,
-              "placeholder": "Enter email"
-            },
-            {
-              "key": "description",
-              "label": "Description",
-              "type": "textarea",
-              "required": true,
-              "placeholder": "Enter textarea"
-            },
-            {
-              "key": "role",
-              "label": "Role",
-              "type": "select",
-              "required": true,
-              "options": ["Admin", "User", "Guest"],
-              "placeholder": "Select role"
-            },
-            {
-              "key": "avatar",
-              "label": "Avatar",
-              "type": "file",
-              "required": false,
-              "accept": "image/*",
-              "placeholder": "Upload avatar"
-            }
-          ]
-        }
+  "module": "ProductLineManagement",
+  "apiBaseUrl": "http://localhost:8000/api",
+  "components": [
+    {
+      "name": "ProductLine",
+      "list": {
+        "columns": [
+          {"key": "id", "label": "ID", "type": "number"},
+          {"key": "name", "label": "Name", "type": "string"},
+          {"key": "code", "label": "Code", "type": "string"},
+          {"key": "description", "label": "Description", "type": "string"}
+        ],
+        "endpoint": "/product-lines"
+      },
+      "form": {
+        "fields": [
+          {
+            "key": "name",
+            "label": "Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter product line name"
+          },
+          {
+            "key": "code",
+            "label": "Code",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter unique code"
+          },
+          {
+            "key": "description",
+            "label": "Description",
+            "type": "textarea",
+            "required": false,
+            "placeholder": "Enter product line description"
+          }
+        ]
       }
-    ]
-  }
+    }
+  ]
+}
