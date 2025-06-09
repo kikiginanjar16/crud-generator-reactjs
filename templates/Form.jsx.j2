@@ -32,7 +32,6 @@ const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ ini
 
   return (
     <div className="<% component_name|lower %>-form-container">
-      <h2>{initialValues ? 'Edit <% component_name %>' : 'Add <% component_name %>'}</h2>
       <Form
         form={form}
         layout="vertical"
@@ -75,13 +74,16 @@ const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ ini
         </Form.Item>
         [% endfor %]
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {initialValues ? 'Update' : 'Create'}
-          </Button>
+          <div className='flex items-center justify-end'>
           <Button style={{ marginRight: 8 }} onClick={onCancel}>
             Cancel
           </Button>
+          <Button type="primary" htmlType="submit">
+            {initialValues ? 'Update' : 'Create'}
+          </Button>
+          </div>
         </Form.Item>
+      </Form>
       </Form>
     </div>
   );
