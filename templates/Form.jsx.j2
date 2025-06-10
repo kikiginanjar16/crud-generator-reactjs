@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Form, Input, Select, Button, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import <% component_name %>Service from './services/<% component_name %>Service';
@@ -13,6 +13,13 @@ interface <% component_name %>FormProps {
 
 const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.resetFields();
+    if (initialValues) {
+      form.setFieldsValue(initialValues);
+    }
+  }, [initialValues, form]);
 
   const handleSubmit = async (values: any) => {
     try {
