@@ -17,9 +17,9 @@ apiClient.interceptors.request.use((config) => {
 });
 
 const <% component_name %>Service = {
-  getAll: async (): Promise<any[]> => {
+  getAll: async (search : string = ''): Promise<any[]> => {
     try {
-      const response = await apiClient.get<any[]>('<% endpoint %>?page=1&limit=1000');
+      const response = await apiClient.get<any[]>(`<% endpoint %>?search=${search}&page=1&limit=1000`);
       return response.data;
     } catch (error) {
       console.error('Error fetching <% component_name|lower %>s:', error);

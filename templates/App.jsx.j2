@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Modal, Button, message, Breadcrumb } from 'antd';
+import { Modal, Button, message, Breadcrumb, Input } from 'antd';
 [% for component in components %]
 import <% component.name %>List from './<% component.name %>List';
 import <% component.name %>Form from './<% component.name %>Form';
@@ -11,10 +11,11 @@ const <% module %>Page: React.FC = () => {
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const fetchData = async () => {
+
+  const fetchData = async (search: string = '') => {
     setLoading(true);
     try {
-      const response : any = await <% components[0].name %>Service.getAll();
+      const response : any = await <% components[0].name %>Service.getAll(search);
       setData(response.data);
     } catch (error) {
       console.error('Failed to fetch data:', error);
@@ -88,14 +89,9 @@ const <% module %>Page: React.FC = () => {
           style={{ width: 300, marginRight: 16 }}
           placeholder="Search..."
           className="search-input"
-          onChange={(e) => {
+          onChange={async(e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const filteredData = data.filter(item =>
-              Object.values(item).some(value =>
-                String(value).toLowerCase().includes(searchTerm)
-              )
-            );
-            setData(filteredData);
+            await fetchData(searchTerm);
           }}
         />
       </div>
