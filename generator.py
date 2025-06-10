@@ -42,7 +42,7 @@ def generate_component(component, api_base_url, output_dir="output/generated_com
             f.write(content)
         print(f"Generated {component['name']}Form.tsx and {component['name']}Form.css")
     
-    # Generate Form component
+    # Generate Detail component
     if 'form' in component:
         template = env.get_template('Detail.jsx.j2')
         content = template.render(

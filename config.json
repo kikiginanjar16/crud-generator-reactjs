@@ -1,5 +1,5 @@
 {
-  "module": "ProductPerformanceManagement",
+  "module": "ProductPerformance",
   "apiBaseUrl": "http://localhost:8000/api",
   "components": [
     {
