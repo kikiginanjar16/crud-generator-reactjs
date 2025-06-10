@@ -50,7 +50,7 @@ const <% component_name %>Service = {
       }
       [% endfor %]
       const response = await apiClient.post<any>('<% endpoint %>', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'application/json' },
       });
       return response.data;
     } catch (error) {
@@ -72,7 +72,7 @@ const <% component_name %>Service = {
       }
       [% endfor %]
       const response = await apiClient.put<any>(`<% endpoint %>/${id}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'application/json' },
       });
       return response.data;
     } catch (error) {
