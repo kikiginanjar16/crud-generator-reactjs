@@ -27,7 +27,6 @@ const <% component_name %>Detail: React.FC = () => {
 
   return (
     <div className="<% component_name|lower %>-detail-container" style={{ padding: 24 }}>
-      <h2><% component_name %> Details</h2>
       <Button
         onClick={() => navigate(-1)}
         style={{ marginBottom: 16 }}
@@ -36,7 +35,11 @@ const <% component_name %>Detail: React.FC = () => {
       </Button>
       <Card loading={loading}>
         {data && (
-          <Descriptions bordered>
+          <Descriptions
+            title="Detail Information"
+            column={1}
+            style={{ marginBottom: 16 }}
+            bordered>
             [% for field in form.fields %]
             <Descriptions.Item label="<% field.label %>">
               [% if field.type == 'file' %]

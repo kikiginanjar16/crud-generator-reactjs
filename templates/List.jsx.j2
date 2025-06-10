@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Image } from 'antd';
 import <% component_name %>Service from './services/<% component_name %>Service';
-
+import { useNavigate } from 'react-router-dom';
 
 interface <% component_name %>ListProps {
   onEdit: (record: any) => void;
@@ -11,6 +11,7 @@ interface <% component_name %>ListProps {
 }
 
 const <% component_name %>List: React.FC<<% component_name %>ListProps> = ({ onEdit, onDelete, data, loading }) => {
+  const navigate = useNavigate();
   const columns = [
     [% for column in list.columns %]
     {
@@ -27,6 +28,7 @@ const <% component_name %>List: React.FC<<% component_name %>ListProps> = ({ onE
       key: 'actions',
       render: (_: any, record: any) => (
         <>
+          <Button onClick={() => navigate(`<%endpoint%>/${record.id}`)} style={{ marginRight: 8 }}>View</Button>
           <Button onClick={() => onEdit(record)} style={{ marginRight: 8 }}>Edit</Button>
           <Button danger onClick={() => onDelete(record.id)}>Delete</Button>
         </>

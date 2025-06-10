@@ -24,7 +24,9 @@ def generate_component(component, api_base_url, output_dir="output/generated_com
         template = env.get_template('List.jsx.j2')
         content = template.render(
             component_name=component['name'],
-            list=component['list']
+            list=component['list'],
+            api_base_url=api_base_url,
+            endpoint=component['list']['endpoint'],
         )
         os.makedirs(output_dir, exist_ok=True)
         with open(f"{output_dir}/{component['name']}List.tsx", 'w') as f:
@@ -36,7 +38,9 @@ def generate_component(component, api_base_url, output_dir="output/generated_com
         template = env.get_template('Form.jsx.j2')
         content = template.render(
             component_name=component['name'],
-            form=component['form']
+            form=component['form'],
+            api_base_url=api_base_url,
+            endpoint=component['list']['endpoint'],
         )
         with open(f"{output_dir}/{component['name']}Form.tsx", 'w') as f:
             f.write(content)
@@ -47,7 +51,8 @@ def generate_component(component, api_base_url, output_dir="output/generated_com
         template = env.get_template('Detail.jsx.j2')
         content = template.render(
             component_name=component['name'],
-            form=component['form']
+            form=component['form'],
+            endpoint=component['list']['endpoint'],
         )
         with open(f"{output_dir}/{component['name']}Detail.tsx", 'w') as f:
             f.write(content)
