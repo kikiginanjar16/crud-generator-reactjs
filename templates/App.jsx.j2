@@ -33,6 +33,7 @@ const <% module %>Page: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
+    setLoading(true);
     try {
       await <% components[0].name %>Service.delete(id);
       setData(data.filter(item => item.id !== id));
@@ -40,6 +41,8 @@ const <% module %>Page: React.FC = () => {
       fetchData();
     } catch (error) {
       message.error('Failed to delete <% components[0].name|lower %>');
+    }  finally {
+      setLoading(false);
     }
   };
 

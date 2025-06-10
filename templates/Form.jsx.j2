@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Form, Input, Select, Button, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import <% component_name %>Service from './services/<% component_name %>Service';
@@ -13,6 +13,7 @@ interface <% component_name %>FormProps {
 
 const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     form.resetFields();
@@ -22,6 +23,7 @@ const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ ini
   }, [initialValues, form]);
 
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       if (initialValues && initialValues.id) {
         await <% component_name %>Service.update(initialValues.id, values);
@@ -34,6 +36,8 @@ const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ ini
       form.resetFields();
     } catch (error) {
       message.error('Failed to save <% component_name|lower %>');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -83,10 +87,10 @@ const <% component_name %>Form: React.FC<<% component_name %>FormProps> = ({ ini
         [% endfor %]
         <Form.Item>
           <div className='flex items-center justify-end'>
-          <Button style={{ marginRight: 8 }} onClick={onCancel}>
+          <Button loading={loading} style={{ marginRight: 8 }} onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit">
             {initialValues ? 'Update' : 'Create'}
           </Button>
           </div>
