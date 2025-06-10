@@ -73,6 +73,7 @@ const <% module %>Page: React.FC = () => {
           </div>
 
           <Button
+            loading={loading}
             size='large'
             type="primary"
             onClick={() => setIsModalVisible(true)}
@@ -81,8 +82,26 @@ const <% module %>Page: React.FC = () => {
             Create New
           </Button>
       </div>
+      <div className="flex justify-start items-center mb-4">
+        <Input.Search
+          size='large'
+          style={{ width: 300, marginRight: 16 }}
+          placeholder="Search..."
+          className="search-input"
+          onChange={(e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredData = data.filter(item =>
+              Object.values(item).some(value =>
+                String(value).toLowerCase().includes(searchTerm)
+              )
+            );
+            setData(filteredData);
+          }}
+        />
+      </div>
+
       [% for component in components %]
-      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} setData={setData} />
+      <<% component.name %>List onEdit={handleEdit} onDelete={handleDelete} data={data} loading={loading} />
       [% endfor %]
       <Modal
         title={currentRecord ? 'Edit <% components[0].name %>' : 'Add <% components[0].name %>'}
